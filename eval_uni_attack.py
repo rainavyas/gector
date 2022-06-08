@@ -16,10 +16,11 @@ def count_edits(input_file, model, attack_phrase=''):
     test_data = read_lines(input_file)
     cnt_corrections = 0
     num_0_edits = 0
-    for i,sent in enumerate(test_data):
+    for i,sent in enumerate(test_data[:5]):
         print(f'On {i}/{len(test_data)}')
         sent_attack = sent + ' ' + attack_phrase + ' .'
-        _, cnt = model.handle_batch([sent_attack.split()])
+        pred, cnt = model.handle_batch([sent_attack.split()])
+        print(sent_attack, pred)
         cnt_corrections += cnt
         if cnt == 0:
             num_0_edits +=1
