@@ -49,7 +49,7 @@ def main(args, cmd_text):
 
     if args.save_file != '':
         with open(args.save_file, 'a') as f:
-            f.write(f'\n{cmd_text} Frac 0 edits:\t{frac_0_edits}')
+            f.write(f'\n\n{cmd_text} Frac 0 edits:\t{frac_0_edits}')
 
 
 
