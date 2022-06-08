@@ -72,9 +72,6 @@ if __name__ == "__main__":
     parser.add_argument('--input_file',
                         help='Path to the evalset file',
                         required=True)
-    parser.add_argument('--output_file',
-                        help='Path to the output file',
-                        required=True)
     parser.add_argument('--max_len',
                         type=int,
                         help='The max sentence length'
@@ -127,9 +124,6 @@ if __name__ == "__main__":
     parser.add_argument('--weights',
                         help='Used to calculate weighted average', nargs='+',
                         default=None)
-    parser.add_argument('--normalize',
-                        help='Use for text simplification.',
-                        action='store_true')
     args = parser.parse_args()
 
     # Save the command run
