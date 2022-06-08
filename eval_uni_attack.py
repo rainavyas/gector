@@ -13,8 +13,6 @@ Also:
 import sys
 import os
 import argparse
-import torch
-from gec_tools import get_sentences, correct, return_edits
 from statistics import mean, stdev
 from collections import defaultdict
 from utils.helpers import read_lines, normalize
