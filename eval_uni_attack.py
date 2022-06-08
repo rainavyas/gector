@@ -27,7 +27,7 @@ def count_edits(input_file, model, attack_phrase=''):
     return cnt_corrections/len(test_data), num_0_edits/len(test_data)
 
 
-def main(args):
+def main(args, cmd_text):
     # load model
     model = GecBERTModel(vocab_path=args.vocab_path,
                             model_paths=args.model_path,
@@ -46,6 +46,10 @@ def main(args):
     avg_edits, frac_0_edits = count_edits(args.input_file, model, attack_phrase = args.attack_phrase) 
     print(f"Average Edits {avg_edits}" )
     print(f"Frac 0 edits {frac_0_edits}" )
+
+    if args.save_file != '':
+        with open(args.save_file, 'a') as f:
+            f.write(f'\n{cmd_text} Frac 0 edits:\t{frac_0_edits}')
 
 
 
@@ -119,15 +123,20 @@ if __name__ == "__main__":
                         type=str,
                         help='attack phrase to concatenate',
                         default='')
+    parser.add_argument('--save_file',
+                        type=str,
+                        help='give file to append result to if wanted',
+                        default='')
     args = parser.parse_args()
 
     # Save the command run
+    cmd_text = ' '.join(sys.argv)+'\n'
     if not os.path.isdir('CMDs'):
         os.mkdir('CMDs')
     with open('CMDs/eval_uni_attack.cmd', 'a') as f:
-        f.write(' '.join(sys.argv)+'\n') 
+        f.write(cmd_text) 
     
-    main(args)
+    main(args, cmd_text)
 
 
 
