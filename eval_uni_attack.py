@@ -13,20 +13,17 @@ Also:
 import sys
 import os
 import argparse
-from statistics import mean, stdev
-from collections import defaultdict
 from utils.helpers import read_lines, normalize
 from gector.gec_model import GecBERTModel
 
 
-def count_edits(input_file, model, batch_size=32):
+def count_edits(input_file, model, batch_size=32, attack_phrase=''):
     test_data = read_lines(input_file)
-    print(len(test_data))
     cnt_corrections = 0
     batch = []
     for sent in test_data[:3]:
-        print(sent)
-        batch.append(sent.split())
+        sent_attack = sent + ' ' + attack_phrase + ' .'
+        batch.append(sent_attack.split())
         if len(batch) == batch_size:
             _, cnt = model.handle_batch(batch)
             cnt_corrections += cnt
@@ -35,7 +32,7 @@ def count_edits(input_file, model, batch_size=32):
         _, cnt = model.handle_batch(batch)
         cnt_corrections += cnt
 
-    return cnt_corrections
+    return cnt_corrections/len(test_data)
 
 
 def main(args):
@@ -54,9 +51,8 @@ def main(args):
                             is_ensemble=args.is_ensemble,
                             weigths=args.weights)
     
-    cnt_corrections = count_edits(args.input_file, model,
-                                       batch_size=args.batch_size) 
-    print(cnt_corrections)
+    avg_edits = count_edits(args.input_file, model, batch_size=args.batch_size, attack_phrase = args.attack_phrase) 
+    print(f"Average Edits {avg_edits}" )
 
 
 
@@ -126,6 +122,10 @@ if __name__ == "__main__":
     parser.add_argument('--weights',
                         help='Used to calculate weighted average', nargs='+',
                         default=None)
+    parser.add_argument('--attack_phrase',
+                        type=str,
+                        help='attack phrase to concatenate', nargs='+',
+                        default='')
     args = parser.parse_args()
 
     # Save the command run
