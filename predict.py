@@ -1,5 +1,6 @@
 import argparse
-
+import sys
+import os
 from utils.helpers import read_lines, normalize
 from gector.gec_model import GecBERTModel
 
@@ -125,4 +126,11 @@ if __name__ == '__main__':
                         help='Use for text simplification.',
                         action='store_true')
     args = parser.parse_args()
+
+    # Save the command run
+    if not os.path.isdir('CMDs'):
+        os.mkdir('CMDs')
+    with open('CMDs/predict.cmd', 'a') as f:
+        f.write(' '.join(sys.argv)+'\n')
+
     main(args)
