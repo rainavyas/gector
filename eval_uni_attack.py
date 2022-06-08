@@ -17,22 +17,18 @@ from utils.helpers import read_lines, normalize
 from gector.gec_model import GecBERTModel
 
 
-def count_edits(input_file, model, batch_size=32, attack_phrase=''):
+def count_edits(input_file, model, attack_phrase=''):
     test_data = read_lines(input_file)
     cnt_corrections = 0
-    batch = []
-    for sent in test_data[:3]:
+    num_0_edits = 0
+    for i,sent in enumerate(test_data):
+        print(f'On {i}/{len(test_data)}')
         sent_attack = sent + ' ' + attack_phrase + ' .'
-        batch.append(sent_attack.split())
-        if len(batch) == batch_size:
-            _, cnt = model.handle_batch(batch)
-            cnt_corrections += cnt
-            batch = []
-    if batch:
-        _, cnt = model.handle_batch(batch)
+        _, cnt = model.handle_batch([sent_attack.split()])
         cnt_corrections += cnt
 
-    return cnt_corrections/len(test_data)
+    return cnt_corrections
+    #return cnt_corrections/len(test_data)
 
 
 def main(args):
@@ -51,7 +47,7 @@ def main(args):
                             is_ensemble=args.is_ensemble,
                             weigths=args.weights)
     
-    avg_edits = count_edits(args.input_file, model, batch_size=args.batch_size, attack_phrase = args.attack_phrase) 
+    avg_edits, frac_0_edits = count_edits(args.input_file, model, attack_phrase = args.attack_phrase) 
     print(f"Average Edits {avg_edits}" )
 
 
