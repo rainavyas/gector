@@ -3,17 +3,12 @@ Evaluate universal adversarial attack.
 
 Evaluate by counting average number of edits between original input
 (with attack phrase) and  GEC model prediction
-
-Also:
-- Report how many edits average in original part of sentence and adversarial part.
-- Plot histogram of error distibution before and after attack
-- Show errant error type distribution before and after attack 
 '''
 
 import sys
 import os
 import argparse
-from utils.helpers import read_lines, normalize
+from utils.helpers import read_lines
 from gector.gec_model import GecBERTModel
 
 
@@ -29,8 +24,7 @@ def count_edits(input_file, model, attack_phrase=''):
         if cnt == 0:
             num_0_edits +=1
 
-    return cnt_corrections, num_0_edits/len(test_data)
-    #return cnt_corrections/len(test_data)
+    return cnt_corrections/len(test_data), num_0_edits/len(test_data)
 
 
 def main(args):
@@ -51,6 +45,7 @@ def main(args):
     
     avg_edits, frac_0_edits = count_edits(args.input_file, model, attack_phrase = args.attack_phrase) 
     print(f"Average Edits {avg_edits}" )
+    print(f"Frac 0 edits {frac_0_edits}" )
 
 
 
