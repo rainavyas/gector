@@ -54,7 +54,7 @@ def main(args):
                             is_ensemble=args.is_ensemble,
                             weigths=args.weights)
     
-    cnt_corrections = count_edits(args.input_file, args.output_file, model,
+    cnt_corrections = count_edits(args.input_file, model,
                                        batch_size=args.batch_size) 
     print(cnt_corrections)
 
