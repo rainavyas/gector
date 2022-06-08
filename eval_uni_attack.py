@@ -117,7 +117,7 @@ if __name__ == "__main__":
                         default=None)
     parser.add_argument('--attack_phrase',
                         type=str,
-                        help='attack phrase to concatenate', nargs='+',
+                        help='attack phrase to concatenate',
                         default='')
     args = parser.parse_args()
 
