@@ -53,6 +53,10 @@ def main(args):
                             del_confidence=args.additional_del_confidence,
                             is_ensemble=args.is_ensemble,
                             weigths=args.weights)
+    
+    cnt_corrections = count_edits(args.input_file, args.output_file, model,
+                                       batch_size=args.batch_size) 
+    print(cnt_corrections)
 
 
 
@@ -131,7 +135,6 @@ if __name__ == "__main__":
         f.write(' '.join(sys.argv)+'\n') 
     
     main(args)
-    print(count_edits)
 
 
 
