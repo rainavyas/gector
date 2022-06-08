@@ -26,8 +26,10 @@ def count_edits(input_file, model, attack_phrase=''):
         sent_attack = sent + ' ' + attack_phrase + ' .'
         _, cnt = model.handle_batch([sent_attack.split()])
         cnt_corrections += cnt
+        if cnt == 0:
+            num_0_edits +=1
 
-    return cnt_corrections
+    return cnt_corrections, num_0_edits/len(test_data)
     #return cnt_corrections/len(test_data)
 
 
