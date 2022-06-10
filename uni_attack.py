@@ -186,7 +186,7 @@ if __name__ == "__main__":
     # test_words = ['']+test_words
 
     # Initialise empty log file
-    with open(args.LOG, 'w') as f:
+    with open(args.log, 'w') as f:
         f.write("Logged on "+ str(date.today()))
 
     best = ('none', 1000)
@@ -200,6 +200,6 @@ if __name__ == "__main__":
         if edits_avg < best[1]:
             best = (word, edits_avg)
             # Write to log
-            with open(args.LOG, 'a') as f:
+            with open(args.log, 'a') as f:
                 out = '\n'+best[0]+" "+str(best[1])
                 f.write(out)
