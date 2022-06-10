@@ -1,5 +1,8 @@
 import os
 from pathlib import Path
+import random 
+
+random.seed(10)
 
 
 VOCAB_DIR = Path(__file__).resolve().parent.parent / "data"
@@ -161,6 +164,18 @@ def read_lines(fn, skip_strip=False):
     with open(fn, 'r', encoding='utf-8') as f:
         lines = f.readlines()
     return [s.strip() for s in lines if s.strip() or skip_strip]
+
+def read_lines_with_id(fn, random=False, num=-1):
+    with open(fn, 'r') as f:
+        lines = f.readlines()
+    if random:
+        random.shuffle(lines)
+    if num > 0:
+        lines = lines[:num]
+    texts = [' '.join(l.rstrip('\n').split()[1:]) for l in lines]
+    ids = [l.rstrip('\n').split()[0] for l in lines]
+    return ids, texts
+
 
 
 def write_lines(fn, lines, mode='w'):
