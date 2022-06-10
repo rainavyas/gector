@@ -171,7 +171,7 @@ if __name__ == "__main__":
                             weigths=args.weights)
 
     # Load input sentences
-    _, sentences = read_lines_with_id(args.input_file, random=True, num=args.num_points)
+    _, sentences = read_lines_with_id(args.input_file, do_random=True, num=args.num_points)
 
     # Get list of words to try
     with open(args.asr_vocab, 'r') as f:

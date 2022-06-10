@@ -165,10 +165,10 @@ def read_lines(fn, skip_strip=False):
         lines = f.readlines()
     return [s.strip() for s in lines if s.strip() or skip_strip]
 
-def read_lines_with_id(fn, random=False, num=-1):
+def read_lines_with_id(fn, do_random=False, num=-1):
     with open(fn, 'r') as f:
         lines = f.readlines()
-    if random:
+    if do_random:
         random.shuffle(lines)
     if num > 0:
         lines = lines[:num]
